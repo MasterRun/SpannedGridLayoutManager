@@ -530,7 +530,19 @@ open class SpannedGridLayoutManager(val orientation: Orientation,
         val paddingEndLayout = getPaddingEndForOrientation()
 
         val start = 0
-        val end = layoutEnd + rectsHelper.itemSize + paddingEndLayout
+//        val end = layoutEnd + rectsHelper.itemSize + paddingEndLayout
+        var end = 0
+        for (i in (state.itemCount - 1) downTo 0) {
+            val rect = childFrames[state.itemCount - 1]
+            if (rect != null) {
+                end = paddingEndLayout + if (orientation == Orientation.VERTICAL) {
+                    rect.bottom
+                } else {
+                    rect.right
+                }
+                break
+            }
+        }
 
         scroll -= distance
 
@@ -543,7 +555,8 @@ open class SpannedGridLayoutManager(val orientation: Orientation,
         }
 
         // Correct scroll if it would make the layout scroll out of bounds at the end
-        if (scroll + size > end && (firstVisiblePosition + childCount + spans) >= state.itemCount) {
+//        if (scroll + size > end && (firstVisiblePosition + childCount + spans) >= state.itemCount) {
+        if (end != 0 && scroll + size > end && (firstVisiblePosition + childCount + spans) >= state.itemCount) {
             correctedDistance -= (end - scroll - size)
             scroll = end - size
         }
