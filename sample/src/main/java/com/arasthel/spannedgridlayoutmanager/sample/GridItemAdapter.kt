@@ -8,7 +8,7 @@ import android.view.ViewGroup
 /**
  * Created by Jorge Martín on 24/5/17.
  */
-class GridItemAdapter: RecyclerView.Adapter<GridItemViewHolder>() {
+class GridItemAdapter(val mItemCount: Int) : RecyclerView.Adapter<GridItemViewHolder>() {
 
     val clickedItems: MutableList<Boolean>
 
@@ -41,7 +41,7 @@ class GridItemAdapter: RecyclerView.Adapter<GridItemViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 500
+        return mItemCount
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GridItemViewHolder {
